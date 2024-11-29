@@ -4,7 +4,6 @@ import (
 	"FPPBKKGo/internal/domain"
 	"log"
 	"math/rand"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -888,7 +887,7 @@ func SeedMovies(db *gorm.DB) {
 	
 		{
 			Title: 		 "Clock",
-			Slug: 		 "it%E2%80%99s-counting-down-for-a-reasoni",
+			Slug: 		 "it99s-counting-down-for-a-reasoni",
 			Year: 		 "2023",
 			Description: 	 "On the eve of her 38th birthday, a woman desperately attempts to fix her broken biological clock.",
 			ImagePath: 	 "images/movie_images/1085103",
@@ -967,9 +966,6 @@ func SeedMovieGenresActors(db *gorm.DB) {
 	if err := db.Where("genre_id IS NULL OR actor_id IS NULL").Find(&movies).Error; err != nil {
 		log.Fatalf("Failed to fetch movies: %v", err)
 	}
-
-    // Initialize random seed
-    rand.Seed(time.Now().UnixNano())
 
     // Update each movie with random genre_id and actor_id
     for i := range movies {
