@@ -17,4 +17,6 @@ type AlbumRepository interface {
     GetAllAlbums() ([]Album, error)
     UpdateAlbum(id uint, album Album) (Album, error)
     DeleteAlbum(id uint) error
+    AddMovieToAlbum(albumID uint, movieID uint) error     
+    RemoveMovieFromAlbum(albumID uint, movieID uint) error 
 }

@@ -12,6 +12,7 @@ import (
 // AlbumUsecase contains methods related to albums
 type AlbumUsecase struct {
     AlbumRepository domain.AlbumRepository
+	MovieRepository domain.MovieRepository
 }
 
 func (au *AlbumUsecase) CreateAlbum(album domain.Album) (domain.Album, error) {
@@ -72,3 +73,43 @@ func GenerateSlug(name string) string {
 
 	return slug.Make(cleaned)
 }
+
+// AddMovieToAlbum adds a movie to the album
+func (au *AlbumUsecase) AddMovieToAlbum(albumID uint, movieID uint) error {
+    album, err := au.AlbumRepository.GetAlbumByID(albumID)
+    if err != nil {
+        return err
+    }
+
+    // Get the movie using MovieRepository
+    movie, err := au.MovieRepository.GetByID(movieID)
+    if err != nil {
+        return err
+    }
+
+    // Check if the movie is already in the album
+    for _, m := range album.Movies {
+        if m.ID == movieID {
+            return errors.New("movie already added to the album")
+        }
+    }
+
+    // Add the movie to the album's Movies slice (this will reflect in the join table)
+    album.Movies = append(album.Movies, movie)
+
+    // Save the updated relationship to the database (this will update the join table)
+    if err := au.AlbumRepository.AddMovieToAlbum(albumID, movieID); err != nil {
+        return err
+    }
+
+    return nil
+}
+
+func (au *AlbumUsecase) RemoveMovieFromAlbum(albumID, movieID uint) error {
+    // Use the repository method to remove the movie from the album_movies table
+    if err := au.AlbumRepository.RemoveMovieFromAlbum(albumID, movieID); err != nil {
+        return err
+    }
+    return nil
+}
+

@@ -44,7 +44,10 @@ func main() {
 
     // Initialize use cases
     movieUsecase := &usecases.MovieUsecase{MovieRepository: movieRepo}
-    albumUsecase := &usecases.AlbumUsecase{AlbumRepository: albumRepo}
+    albumUsecase := &usecases.AlbumUsecase{
+        AlbumRepository: albumRepo,
+        MovieRepository: movieRepo,
+    }
 
     // Initialize controllers
     movieController := &controllers.MovieController{MovieUsecase: movieUsecase}

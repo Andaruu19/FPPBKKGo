@@ -114,3 +114,59 @@ func (ac *AlbumController) DeleteAlbum(c *gin.Context) {
 
     c.JSON(http.StatusOK, gin.H{"message": "Album deleted successfully"})
 }
+
+func (ac *AlbumController) AddMovieToAlbum(c *gin.Context) {
+    // Parse album_id and movie_id from the URL parameters
+    albumIDStr := c.Param("album_id")
+    movieIDStr := c.Param("movie_id")
+
+    albumID, err := strconv.Atoi(albumIDStr)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid album ID"})
+        return
+    }
+
+    movieID, err := strconv.Atoi(movieIDStr)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid movie ID"})
+        return
+    }
+
+    // Call the usecase to add the movie to the album
+    err = ac.AlbumUsecase.AddMovieToAlbum(uint(albumID), uint(movieID))
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "Movie added to the album successfully"})
+}
+
+func (ac *AlbumController) RemoveMovieFromAlbum(c *gin.Context) {
+    // Parse album_id and movie_id from the URL parameters
+    albumIDStr := c.Param("album_id")
+    movieIDStr := c.Param("movie_id")
+
+    albumID, err := strconv.Atoi(albumIDStr)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid album ID"})
+        return
+    }
+
+    movieID, err := strconv.Atoi(movieIDStr)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid movie ID"})
+        return
+    }
+
+    // Call the usecase to remove the movie from the album
+    err = ac.AlbumUsecase.RemoveMovieFromAlbum(uint(albumID), uint(movieID))
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "Movie removed from the album successfully"})
+}
+
+
