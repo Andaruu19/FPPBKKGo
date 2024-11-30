@@ -15,4 +15,5 @@ type Movie struct {
     Genre       Genre  `gorm:"foreignKey:GenreID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
     ActorID     *uint  `gorm:"type:int;"` // Allow NULL for migration
     Actor       Actor  `gorm:"foreignKey:ActorID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+    Albums      []*Album `gorm:"many2many:album_movies;constraint:OnDelete:CASCADE"`
 }
