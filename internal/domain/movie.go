@@ -17,3 +17,8 @@ type Movie struct {
     Actor       Actor  `gorm:"foreignKey:ActorID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
     Albums      []*Album `gorm:"many2many:album_movies;constraint:OnDelete:CASCADE"`
 }
+
+type MovieRepository interface {
+    GetByID(id uint) (*Movie, error)
+    GetAll() ([]Movie, error)
+}
