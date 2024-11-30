@@ -19,6 +19,8 @@ func MigrateDB(db *gorm.DB) {
     migrations.MigrateMovies(db)  // For movies
 	database.SeedMovies(db)  // For movies
 	database.SeedMovieGenresActors(db)  // For movie_genres and movie_actors
+	migrations.MigrateAlbums(db)  // For albums
+	migrations.MigrateAlbumMovie(db)  // For album_movies
 
     log.Println("Database migration completed successfully.")
 }
