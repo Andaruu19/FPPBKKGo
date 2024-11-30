@@ -11,7 +11,7 @@ type MovieUsecase struct {
 
 // GetMovie retrieves a movie by its ID
 func (mu *MovieUsecase) GetMovie(id uint) (*domain.Movie, error) {
-    movie, err := mu.MovieRepository.FindByID(id)
+    movie, err := mu.MovieRepository.GetByID(id)
     if err != nil {
         return nil, err
     }
@@ -20,7 +20,7 @@ func (mu *MovieUsecase) GetMovie(id uint) (*domain.Movie, error) {
 
 // GetAllMovies fetches all movies
 func (mu *MovieUsecase) GetAllMovies() ([]domain.Movie, error) {
-    movies, err := mu.MovieRepository.FindAll()
+    movies, err := mu.MovieRepository.GetAll()
     if err != nil {
         return nil, err
     }
