@@ -22,7 +22,7 @@ func main() {
     }
 
     // Create the database
-    dbName := "FpGo"
+    dbName := "fpgo"
     err = db.Exec("CREATE DATABASE IF NOT EXISTS " + dbName).Error
     if err != nil {
         log.Fatalf("Failed to create database: %v", err)
@@ -40,18 +40,22 @@ func main() {
 
     // Initialize repositories
     movieRepo := &repositories.MovieRepository{DB: db}
+    albumRepo := &repositories.AlbumRepository{DB: db}
 
     // Initialize use cases
     movieUsecase := &usecases.MovieUsecase{MovieRepository: movieRepo}
+    albumUsecase := &usecases.AlbumUsecase{AlbumRepository: albumRepo}
 
     // Initialize controllers
     movieController := &controllers.MovieController{MovieUsecase: movieUsecase}
+    albumController := &controllers.AlbumController{AlbumUsecase: albumUsecase}
 
     // Set up Gin router
     router := gin.Default()
 
     // Set up routes
     routes.SetupMovieRoutes(router, movieController)
+    routes.SetupAlbumRoutes(router, albumController)
 
     // Run the server
     log.Println("Server started on port 8080...")
