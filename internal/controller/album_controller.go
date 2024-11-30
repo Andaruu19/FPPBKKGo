@@ -169,4 +169,22 @@ func (ac *AlbumController) RemoveMovieFromAlbum(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"message": "Movie removed from the album successfully"})
 }
 
+// GetMoviesInAlbum is a method to fetch movies in a specific album
+func (ac *AlbumController) GetMoviesInAlbum(c *gin.Context) {
+	albumIDStr := c.Param("album_id")
+	albumID, err := strconv.Atoi(albumIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid album ID"})
+		return
+	}
+
+	movies, err := ac.AlbumUsecase.GetMoviesInAlbum(uint(albumID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch movies"})
+		return
+	}
+
+	c.JSON(http.StatusOK, movies)
+}
+
 

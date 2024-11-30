@@ -27,3 +27,17 @@ func (mr *MovieRepository) GetAll() ([]domain.Movie, error) {
     }
     return movies, nil
 }
+
+// GetMoviesByAlbumID fetches all movies associated with a given album ID
+func (mr *MovieRepository) GetMoviesByAlbumID(albumID uint) ([]domain.Movie, error) {
+	var movies []domain.Movie
+	err := mr.DB.Joins("JOIN album_movies ON album_movies.movie_id = movies.id").
+		Where("album_movies.album_id = ?", albumID).
+		Find(&movies).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return movies, nil
+}

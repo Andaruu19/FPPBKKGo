@@ -113,3 +113,13 @@ func (au *AlbumUsecase) RemoveMovieFromAlbum(albumID, movieID uint) error {
     return nil
 }
 
+// GetMoviesInAlbum fetches all movies in a specific album by its ID
+func (au *AlbumUsecase) GetMoviesInAlbum(albumID uint) ([]domain.Movie, error) {
+	// Use the MovieRepository to get movies by album ID
+	movies, err := au.MovieRepository.GetMoviesByAlbumID(albumID)
+	if err != nil {
+		return nil, err
+	}
+
+	return movies, nil
+}
