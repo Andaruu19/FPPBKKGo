@@ -1,9 +1,14 @@
 package main
 
 import (
+	controllers "FPPBKKGo/internal/controller"
 	"FPPBKKGo/internal/infrastructure"
+	repositories "FPPBKKGo/internal/repositories/mysql"
+	"FPPBKKGo/internal/routes"
+	"FPPBKKGo/internal/usecases"
 	"log"
 
+	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -32,4 +37,25 @@ func main() {
 
     // Run database migrations
     infrastructure.MigrateDB(db)
+
+    // Initialize repositories
+    movieRepo := &repositories.MovieRepository{DB: db}
+
+    // Initialize use cases
+    movieUsecase := &usecases.MovieUsecase{MovieRepository: movieRepo}
+
+    // Initialize controllers
+    movieController := &controllers.MovieController{MovieUsecase: movieUsecase}
+
+    // Set up Gin router
+    router := gin.Default()
+
+    // Set up routes
+    routes.SetupMovieRoutes(router, movieController)
+
+    // Run the server
+    log.Println("Server started on port 8080...")
+    if err := router.Run(":8080"); err != nil {
+        log.Fatalf("Failed to start the server: %v", err)
+    }
 }
