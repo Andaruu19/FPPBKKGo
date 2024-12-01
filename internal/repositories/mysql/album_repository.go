@@ -52,7 +52,6 @@ func (ar *AlbumRepository) DeleteAlbum(id uint) error {
 
 // AddMovieToAlbum adds a relationship between the album and the movie in the join table
 func (ar *AlbumRepository) AddMovieToAlbum(albumID uint, movieID uint) error {
-    // Create the relationship in the album_movies join table
     if err := ar.DB.Table("album_movies").Create(&domain.AlbumMovie{
         AlbumID: albumID,
         MovieID: movieID,
@@ -64,7 +63,6 @@ func (ar *AlbumRepository) AddMovieToAlbum(albumID uint, movieID uint) error {
 
 // RemoveMovieFromAlbum removes the relationship between the album and the movie from the join table
 func (ar *AlbumRepository) RemoveMovieFromAlbum(albumID uint, movieID uint) error {
-    // Delete the relationship in the album_movies join table
     if err := ar.DB.Table("album_movies").Where("album_id = ? AND movie_id = ?", albumID, movieID).Delete(&domain.AlbumMovie{}).Error; err != nil {
         return err
     }
