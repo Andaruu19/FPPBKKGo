@@ -46,3 +46,13 @@ func (mr *MovieRepository) GetMoviesByAlbumID(albumID uint) ([]domain.Movie, err
 
 	return movies, nil
 }
+
+// Add to movie_repository.go
+func (r *MovieRepository) GetBySlug(slug string) (*domain.Movie, error) {
+    var movie domain.Movie
+    result := r.DB.Preload("Genre").Where("slug = ?", slug).First(&movie)
+    if result.Error != nil {
+        return nil, result.Error
+    }
+    return &movie, nil
+}

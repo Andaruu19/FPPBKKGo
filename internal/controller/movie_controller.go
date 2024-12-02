@@ -42,3 +42,14 @@ func (mc *MovieController) GetAllMovies(c *gin.Context) {
     c.JSON(http.StatusOK, movies)
 }
 
+// Add to movie_controller.go
+func (mc *MovieController) GetMovieBySlug(c *gin.Context) {
+    slug := c.Param("slug")
+    movie, err := mc.MovieUsecase.GetMovieBySlug(slug)
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Movie not found"})
+        return
+    }
+    c.JSON(http.StatusOK, movie)
+}
+

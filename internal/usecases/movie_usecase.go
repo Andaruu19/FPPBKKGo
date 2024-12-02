@@ -3,6 +3,7 @@ package usecases
 import (
 	"FPPBKKGo/internal/domain"
 	repository "FPPBKKGo/internal/repositories/mysql"
+	"fmt"
 )
 
 type MovieUsecase struct {
@@ -25,4 +26,17 @@ func (mu *MovieUsecase) GetAllMovies() ([]domain.Movie, error) {
         return nil, err
     }
     return movies, nil
+}
+
+func (mu *MovieUsecase) GetMovieBySlug(slug string) (*domain.Movie, error) {
+    if slug == "" {
+        return nil, fmt.Errorf("slug cannot be empty")
+    }
+
+    movie, err := mu.MovieRepository.GetBySlug(slug)
+    if err != nil {
+        return nil, err
+    }
+
+    return movie, nil
 }

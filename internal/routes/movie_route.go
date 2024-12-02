@@ -9,7 +9,8 @@ import (
 func SetupMovieRoutes(router *gin.Engine, movieController *controllers.MovieController) {
     movieGroup := router.Group("/movies")
     {
-        movieGroup.GET("/:id", movieController.GetMovie)
+        //movieGroup.GET("/:id", movieController.GetMovie)
+        movieGroup.GET("/:slug", movieController.GetMovieBySlug)
         movieGroup.GET("/", movieController.GetAllMovies)
     }
 }
