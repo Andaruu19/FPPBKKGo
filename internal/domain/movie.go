@@ -22,4 +22,5 @@ type MovieRepository interface {
     GetByID(id uint) (*Movie, error)
     GetAll() ([]Movie, error)
     GetMoviesByAlbumID(albumID uint) ([]Movie, error) // New method to fetch movies by album ID
+    GetBySlug(slug string) (*Movie, error) // New method to fetch movie by slug
 }
