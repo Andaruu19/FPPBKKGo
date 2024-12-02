@@ -14,21 +14,18 @@ import (
 )
 
 func main() {
-    // Connect to MySQL server without specifying a database
     dsn := "root:@tcp(127.0.0.1:3306)/?charset=utf8mb4&parseTime=True&loc=Local"
     db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
     if err != nil {
         log.Fatalf("Failed to connect to database: %v", err)
     }
 
-    // Create the database
     dbName := "fpgo"
     err = db.Exec("CREATE DATABASE IF NOT EXISTS " + dbName).Error
     if err != nil {
         log.Fatalf("Failed to create database: %v", err)
     }
 
-    // Connect to the newly created database
     dsn = "root:@tcp(127.0.0.1:3306)/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
     db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
     if err != nil {
@@ -55,6 +52,20 @@ func main() {
 
     // Set up Gin router
     router := gin.Default()
+
+    // Add CORS middleware
+    router.Use(func(c *gin.Context) {
+        c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+        c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+                
+        if c.Request.Method == "OPTIONS" {
+            c.AbortWithStatus(204)
+            return
+        }
+                
+        c.Next()
+    })
 
     // Set up routes
     routes.SetupMovieRoutes(router, movieController)
