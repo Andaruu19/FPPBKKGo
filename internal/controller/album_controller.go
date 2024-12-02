@@ -50,7 +50,8 @@ func (ac *AlbumController) GetAllAlbums(c *gin.Context) {
 }
 
 func (ac *AlbumController) GetAlbumByID(c *gin.Context) {
-    idStr := c.Param("id") // Extract the ID from the URL parameter
+    // Extract the album_id from the URL parameter
+    idStr := c.Param("album_id")
     id, err := strconv.Atoi(idStr) // Convert the string ID to an integer
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
@@ -74,7 +75,7 @@ func (ac *AlbumController) UpdateAlbum(c *gin.Context) {
 	}
 
 	// Extract ID from URL parameter and convert it to uint
-	idStr := c.Param("id")
+	idStr := c.Param("album_id")
 	id, err := strconv.ParseUint(idStr, 10, 32) // Convert string to uint (32 bits)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid album ID"})
@@ -97,7 +98,7 @@ func (ac *AlbumController) UpdateAlbum(c *gin.Context) {
 }
 
 func (ac *AlbumController) DeleteAlbum(c *gin.Context) {
-    idStr := c.Param("id")
+    idStr := c.Param("album_id")
     id, err := strconv.Atoi(idStr)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
