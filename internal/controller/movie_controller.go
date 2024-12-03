@@ -64,6 +64,11 @@ func (mc *MovieController) GetMovieByGenre(c *gin.Context) {
 
 func (mc *MovieController) GetMovieByActor(c *gin.Context) {
 	actor, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+
 	movie, err := mc.MovieUsecase.GetMovieByActor(uint(actor))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Actor not found"})
