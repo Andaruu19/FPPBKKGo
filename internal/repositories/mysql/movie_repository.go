@@ -71,3 +71,18 @@ func (mr *MovieRepository) GetByGenre(slug string) ([]domain.Movie, error) {
 
 	return movies, nil
 }
+
+func (mr *MovieRepository) GetByActor(id uint) ([]domain.Movie, error) {
+	var movies []domain.Movie
+	err := mr.DB.
+		Preload("Genre").
+		Preload("Actor").
+		Where("actor_id = ?", id).
+		Find(&movies).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return movies, nil
+}

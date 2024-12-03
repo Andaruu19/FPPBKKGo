@@ -53,3 +53,16 @@ func (mu *MovieUsecase) GetMovieByGenre(slug string) ([]domain.Movie, error) {
 
 	return movie, nil
 }
+
+func (mu *MovieUsecase) GetMovieByActor(id uint) ([]domain.Movie, error) {
+	if id == 0 {
+		return nil, fmt.Errorf("Actor cannot be empty")
+	}
+
+	movie, err := mu.MovieRepository.GetByActor(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return movie, nil
+}
