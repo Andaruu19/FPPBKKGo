@@ -7,36 +7,49 @@ import (
 )
 
 type MovieUsecase struct {
-    MovieRepository *repository.MovieRepository
+	MovieRepository *repository.MovieRepository
 }
 
 // GetMovie retrieves a movie by its ID
 func (mu *MovieUsecase) GetMovie(id uint) (*domain.Movie, error) {
-    movie, err := mu.MovieRepository.GetByID(id)
-    if err != nil {
-        return nil, err
-    }
-    return movie, nil
+	movie, err := mu.MovieRepository.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+	return movie, nil
 }
 
 // GetAllMovies fetches all movies
 func (mu *MovieUsecase) GetAllMovies() ([]domain.Movie, error) {
-    movies, err := mu.MovieRepository.GetAll()
-    if err != nil {
-        return nil, err
-    }
-    return movies, nil
+	movies, err := mu.MovieRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	return movies, nil
 }
 
 func (mu *MovieUsecase) GetMovieBySlug(slug string) (*domain.Movie, error) {
-    if slug == "" {
-        return nil, fmt.Errorf("slug cannot be empty")
-    }
+	if slug == "" {
+		return nil, fmt.Errorf("slug cannot be empty")
+	}
 
-    movie, err := mu.MovieRepository.GetBySlug(slug)
-    if err != nil {
-        return nil, err
-    }
+	movie, err := mu.MovieRepository.GetBySlug(slug)
+	if err != nil {
+		return nil, err
+	}
 
-    return movie, nil
+	return movie, nil
+}
+
+func (mu *MovieUsecase) GetMovieByGenre(slug string) ([]domain.Movie, error) {
+	if slug == "" {
+		return nil, fmt.Errorf("genre cannot be empty")
+	}
+
+	movie, err := mu.MovieRepository.GetByGenre(slug)
+	if err != nil {
+		return nil, err
+	}
+
+	return movie, nil
 }
