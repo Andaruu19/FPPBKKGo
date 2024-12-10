@@ -37,7 +37,7 @@ func SetupAlbumRoutes(router *gin.Engine, albumController *controllers.AlbumCont
 	generatedMovieRoutes := router.Group("/generatedalbums/:album_id/movies")
 	{
 		generatedMovieRoutes.GET("/", albumController.GetMoviesInAlbum)                 // Get all movies in an album
-		generatedMovieRoutes.POST("/", albumController.AddMovieToAlbum)                 // Add a movie to an album
+		generatedMovieRoutes.POST("/:actor_id", albumController.GenerateMovieToAlbum)   // Add a movie to an album
 		generatedMovieRoutes.DELETE("/:movie_id", albumController.RemoveMovieFromAlbum) // Remove a movie from an album
 	}
 }

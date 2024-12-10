@@ -12,6 +12,7 @@ import (
 
 type AlbumController struct {
 	AlbumUsecase *usecases.AlbumUsecase
+	MovieUsecase *usecases.MovieUsecase
 	ActorUsecase *usecases.ActorUsecase
 }
 
@@ -196,6 +197,40 @@ func (ac *AlbumController) AddMovieToAlbum(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Movie added to the album successfully"})
+}
+
+func (ac *AlbumController) GenerateMovieToAlbum(c *gin.Context) {
+	// Parse album_id and movie_id from the URL parameters
+	albumIDStr := c.Param("album_id")
+	actorIDStr := c.Param("actor_id")
+
+	albumID, err := strconv.Atoi(albumIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid album ID"})
+		return
+	}
+
+	actorID, err := strconv.Atoi(actorIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid actor ID"})
+		return
+	}
+
+	movies, err := ac.MovieUsecase.GetMovieByActor(uint(actorID))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Movie not found"})
+		return
+	}
+
+	for _, movie := range movies {
+		err = ac.AlbumUsecase.AddMovieToAlbum(uint(albumID), uint(movie.ID))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Movies added to the album successfully"})
 }
 
 func (ac *AlbumController) RemoveMovieFromAlbum(c *gin.Context) {
