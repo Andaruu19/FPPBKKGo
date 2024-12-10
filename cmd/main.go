@@ -47,6 +47,7 @@ func main() {
 	// Initialize repositories
 	movieRepo := &repositories.MovieRepository{DB: db}
 	albumRepo := &repositories.AlbumRepository{DB: db}
+	actorRepo := &repositories.ActorRepository{DB: db}
 
 	// Initialize use cases
 	movieUsecase := &usecases.MovieUsecase{MovieRepository: movieRepo}
@@ -54,10 +55,14 @@ func main() {
 		AlbumRepository: albumRepo,
 		MovieRepository: movieRepo,
 	}
+	actorUsecase := &usecases.ActorUsecase{ActorRepository: actorRepo}
 
 	// Initialize controllers
 	movieController := &controllers.MovieController{MovieUsecase: movieUsecase}
-	albumController := &controllers.AlbumController{AlbumUsecase: albumUsecase}
+	albumController := &controllers.AlbumController{
+		AlbumUsecase: albumUsecase,
+		ActorUsecase: actorUsecase,
+	}
 
 	// Set up Gin router
 	router := gin.Default()
