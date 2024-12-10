@@ -61,6 +61,7 @@ func main() {
 	movieController := &controllers.MovieController{MovieUsecase: movieUsecase}
 	albumController := &controllers.AlbumController{
 		AlbumUsecase: albumUsecase,
+		MovieUsecase: movieUsecase,
 		ActorUsecase: actorUsecase,
 	}
 
