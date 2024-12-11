@@ -130,6 +130,12 @@ func (ac *AlbumController) UpdateAlbum(c *gin.Context) {
 		Deskripsi string `json:"deskripsi" binding:"required"`
 	}
 
+	// Bind JSON payload to albumRequest
+	if err := c.ShouldBindJSON(&albumRequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		return
+	}
+
 	// Extract ID from URL parameter and convert it to uint
 	idStr := c.Param("album_id")
 	id, err := strconv.ParseUint(idStr, 10, 32) // Convert string to uint (32 bits)

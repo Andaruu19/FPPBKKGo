@@ -45,6 +45,7 @@ func (ar *AlbumRepository) GetAlbumByID(id uint) (domain.Album, error) {
 }
 
 func (ar *AlbumRepository) UpdateAlbum(id uint, album domain.Album) (domain.Album, error) {
+	album.ID = id
 	if err := ar.DB.Model(&domain.Album{}).Where("id = ?", id).Updates(album).Error; err != nil {
 		return domain.Album{}, err
 	}
