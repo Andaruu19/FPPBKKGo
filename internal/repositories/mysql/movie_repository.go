@@ -56,14 +56,18 @@ func (r *MovieRepository) GetBySlug(slug string) (*domain.Movie, error) {
 	return &movie, nil
 }
 
+func (r *MovieRepository) GetByName(name string) ([]domain.Movie, error) {
+	var movies []domain.Movie
+	result := r.DB.Preload("Genre").Where("title LIKE ?", "%"+name+"%").Find(&movies)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return movies, nil
+}
+
 func (mr *MovieRepository) GetByGenre(slug string) ([]domain.Movie, error) {
 	var movies []domain.Movie
-	err := mr.DB.
-		Preload("Genre").
-		Preload("Actor").
-		Joins("JOIN genres ON genres.id = movies.genre_id").
-		Where("genres.slug = ?", slug).
-		Find(&movies).Error
+	err := mr.DB.Preload("Genre").Preload("Actor").Joins("JOIN genres ON genres.id = movies.genre_id").Where("genres.slug = ?", slug).Find(&movies).Error
 
 	if err != nil {
 		return nil, err
@@ -74,11 +78,7 @@ func (mr *MovieRepository) GetByGenre(slug string) ([]domain.Movie, error) {
 
 func (mr *MovieRepository) GetByActor(id uint) ([]domain.Movie, error) {
 	var movies []domain.Movie
-	err := mr.DB.
-		Preload("Genre").
-		Preload("Actor").
-		Where("actor_id = ?", id).
-		Find(&movies).Error
+	err := mr.DB.Preload("Genre").Preload("Actor").Where("actor_id = ?", id).Find(&movies).Error
 
 	if err != nil {
 		return nil, err

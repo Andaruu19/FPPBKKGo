@@ -41,6 +41,19 @@ func (mu *MovieUsecase) GetMovieBySlug(slug string) (*domain.Movie, error) {
 	return movie, nil
 }
 
+func (mu *MovieUsecase) GetMovieByName(name string) ([]domain.Movie, error) {
+	if name == "" {
+		return nil, fmt.Errorf("Movie name cannot be empty")
+	}
+
+	movie, err := mu.MovieRepository.GetByName(name)
+	if err != nil {
+		return nil, err
+	}
+
+	return movie, nil
+}
+
 func (mu *MovieUsecase) GetMovieByGenre(slug string) ([]domain.Movie, error) {
 	if slug == "" {
 		return nil, fmt.Errorf("genre cannot be empty")
