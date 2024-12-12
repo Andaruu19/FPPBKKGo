@@ -56,9 +56,9 @@ func (r *MovieRepository) GetBySlug(slug string) (*domain.Movie, error) {
 	return &movie, nil
 }
 
-func (r *MovieRepository) GetByName(name string) ([]domain.Movie, error) {
+func (r *MovieRepository) GetByTitle(title string) ([]domain.Movie, error) {
 	var movies []domain.Movie
-	result := r.DB.Preload("Genre").Where("title LIKE ?", "%"+name+"%").Find(&movies)
+	result := r.DB.Preload("Genre").Where("title LIKE ?", "%"+title+"%").Find(&movies)
 	if result.Error != nil {
 		return nil, result.Error
 	}

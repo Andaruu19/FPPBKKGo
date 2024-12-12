@@ -52,9 +52,9 @@ func (mc *MovieController) GetMovieBySlug(c *gin.Context) {
 	c.JSON(http.StatusOK, movie)
 }
 
-func (mc *MovieController) GetMovieByName(c *gin.Context) {
-	name := c.Param("name")
-	movie, err := mc.MovieUsecase.GetMovieByName(name)
+func (mc *MovieController) GetMovieByTitle(c *gin.Context) {
+	title := c.Param("title")
+	movie, err := mc.MovieUsecase.GetMovieByTitle(title)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Movie not found"})
 		return
