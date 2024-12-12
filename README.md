@@ -3,7 +3,7 @@
 2. Farel Hanif Andaru (5025221253)
 
 Pada final project Pemrograman Berbasis Kernagka Kerja (PBBKK) ini, kami membuat sebuah platform penyedia layanan streaming film sederhana bernama Nextfix. 
-Platform ini dibuat menggunakan Go Lang pada sisi backend dan Next.js pada sisi frontend (https://github.com/Andaruu19/FPPBKKGo-FE.git).
+Platform ini dibuat menggunakan Go Lang pada sisi backend dan Next.js serta Typescript pada sisi frontend (https://github.com/Andaruu19/FPPBKKGo-FE.git).
 Secara garis besar terdapat 4 section dalam nextfix, yaitu Home, Movies, Albums, dan Generated Albums
 
 ## Home
